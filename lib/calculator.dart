@@ -10,13 +10,13 @@ class CalculatorApp extends StatefulWidget {
 
 class CalculatorAppState extends State<CalculatorApp> {
   String equation = '';
-  String result = '';
+  String result = '0';
 
   void buttonPressed(String buttonText) {
     setState(() {
       if (buttonText == 'C') {
         equation = '';
-        result = '';
+        result = '0';
       } else if (buttonText == '⌫') {
         if (equation.isNotEmpty) {
           equation = equation.substring(0, equation.length - 1);
