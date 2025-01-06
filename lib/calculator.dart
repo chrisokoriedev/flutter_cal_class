@@ -11,17 +11,6 @@ class CalculatorApp extends StatefulWidget {
 class CalculatorAppState extends State<CalculatorApp> {
   String equation = '';
   String result = '';
-  bool isButtonPressed = false;
-
-  void isButtonPressedFunction() {
-    setState(() {
-      if (isButtonPressed == false) {
-        isButtonPressed = true;
-      } else if (isButtonPressed = true) {
-        isButtonPressed = false;
-      }
-    });
-  }
 
   void buttonPressed(String buttonText) {
     setState(() {
@@ -72,8 +61,7 @@ class CalculatorAppState extends State<CalculatorApp> {
             alignment: Alignment.bottomRight,
             child: Text(
               result,
-              style:
-                  const TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
             ),
           ),
           const Spacer(),
@@ -84,48 +72,48 @@ class CalculatorAppState extends State<CalculatorApp> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    buildButton('7'),
-                    buildButton('8'),
-                    buildButton('9'),
-                    buildButton('⌫'),
+                    AnimatedCalculatorButton(text: '7', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(text: '8', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(text: '9', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(text: '⌫', onPressed: buttonPressed),
                   ],
                 ),
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    buildButton('4'),
-                    buildButton('5'),
-                    buildButton('6'),
-                    buildButton('+'),
+                    AnimatedCalculatorButton(text: '4', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(text: '5', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(text: '6', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(text: '+', onPressed: buttonPressed),
                   ],
                 ),
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    buildButton('1'),
-                    buildButton('2'),
-                    buildButton('3'),
-                    buildButton('-'),
+                    AnimatedCalculatorButton(text: '1', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(text: '2', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(text: '3', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(text: '-', onPressed: buttonPressed),
                   ],
                 ),
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    buildButton('.'),
-                    buildButton('0'),
-                    buildButton('C'),
-                    buildButton('*'),
+                    AnimatedCalculatorButton(text: '.', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(text: '0', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(text: 'C', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(text: '*', onPressed: buttonPressed),
                   ],
                 ),
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    buildButton('='),
-                    buildButton('/'),
+                    AnimatedCalculatorButton(text: '=', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(text: '/', onPressed: buttonPressed),
                   ],
                 ),
               ],
@@ -136,33 +124,92 @@ class CalculatorAppState extends State<CalculatorApp> {
       ),
     );
   }
+}
 
-  Widget buildButton(String buttonText) {
-    return InkWell(
-      onTap: () {
-        isButtonPressedFunction();
-        buttonPressed(buttonText);
+class AnimatedCalculatorButton extends StatefulWidget {
+  final String text;
+  final void Function(String) onPressed;
+
+  const AnimatedCalculatorButton({
+    super.key,
+    required this.text,
+    required this.onPressed,
+  });
+
+  @override
+  State<AnimatedCalculatorButton> createState() => _AnimatedCalculatorButtonState();
+}
+
+class _AnimatedCalculatorButtonState extends State<AnimatedCalculatorButton> 
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+  late Animation<double> _shadowAnimation;
+  
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 150),
+      vsync: this,
+    );
+
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.95,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
+
+    _shadowAnimation = Tween<double>(
+      begin: 15.0,
+      end: 2.0,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
+
+    _controller.addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTapDown: (_) => _controller.forward(),
+      onTapUp: (_) {
+        _controller.reverse();
+        widget.onPressed(widget.text);
       },
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        width: 70,
-        height: 70,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
+      onTapCancel: () => _controller.reverse(),
+      child: Transform.scale(
+        scale: _scaleAnimation.value,
+        child: Container(
+          width: 70,
+          height: 70,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
             color: Colors.grey[300],
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.shade300,
-                      offset: const Offset(6, 0),
-                      blurRadius: 15,
-                      spreadRadius: 1,
-                    ),
-                   
-                  ]),
-        child: Text(
-          buttonText,
-          style: const TextStyle(fontSize: 25.0),
+              BoxShadow(
+                color: Colors.grey.shade300,
+                offset: const Offset(6, 0),
+                blurRadius: _shadowAnimation.value,
+                spreadRadius: 1,
+              ),
+            ],
+          ),
+          child: Text(
+            widget.text,
+            style: const TextStyle(fontSize: 25.0),
+          ),
         ),
       ),
     );
