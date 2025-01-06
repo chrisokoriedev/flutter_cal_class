@@ -98,7 +98,7 @@ class CalculatorAppState extends State<CalculatorApp> {
                     AnimatedCalculatorButton(
                         text: '6', onPressed: buttonPressed),
                     AnimatedCalculatorButton(
-                        text: '+', onPressed: buttonPressed),
+                        text: '+', onPressed: buttonPressed,),
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -106,9 +106,11 @@ class CalculatorAppState extends State<CalculatorApp> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     AnimatedCalculatorButton(
-                        text: '1', onPressed: buttonPressed),
+                      text: '1',
+                      onPressed: buttonPressed,
+                    ),
                     AnimatedCalculatorButton(
-                        text: '2', onPressed: buttonPressed),
+                        text: '2', onPressed: buttonPressed,),
                     AnimatedCalculatorButton(
                         text: '3', onPressed: buttonPressed),
                     AnimatedCalculatorButton(
@@ -120,13 +122,21 @@ class CalculatorAppState extends State<CalculatorApp> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     AnimatedCalculatorButton(
-                        text: '.', onPressed: buttonPressed),
+                      text: '.',
+                      onPressed: buttonPressed,
+                    ),
                     AnimatedCalculatorButton(
-                        text: '0', onPressed: buttonPressed),
+                      text: '0',
+                      onPressed: buttonPressed,
+                    ),
                     AnimatedCalculatorButton(
-                        text: 'C', onPressed: buttonPressed),
+                      text: 'C',
+                      onPressed: buttonPressed,
+                    ),
                     AnimatedCalculatorButton(
-                        text: '*', onPressed: buttonPressed),
+                      text: '*',
+                      onPressed: buttonPressed,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -134,9 +144,13 @@ class CalculatorAppState extends State<CalculatorApp> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     AnimatedCalculatorButton(
-                        text: '=', onPressed: buttonPressed),
+                      text: '=',
+                      onPressed: buttonPressed,
+                    ),
                     AnimatedCalculatorButton(
-                        text: '/', onPressed: buttonPressed),
+                      text: '/',
+                      onPressed: buttonPressed,
+                    ),
                   ],
                 ),
               ],
