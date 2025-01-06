@@ -18,15 +18,19 @@ class CalculatorAppState extends State<CalculatorApp> {
         equation = '';
         result = '';
       } else if (buttonText == '⌫') {
-        equation = equation.substring(0, equation.length - 1);
+        if (equation.isNotEmpty) {
+          equation = equation.substring(0, equation.length - 1);
+        }
       } else if (buttonText == '=') {
-        try {
-          Parser p = Parser();
-          Expression exp = p.parse(equation);
-          ContextModel cm = ContextModel();
-          result = '${exp.evaluate(EvaluationType.REAL, cm)}';
-        } catch (e) {
-          result = 'Error';
+        if (equation.isNotEmpty) {
+          try {
+            Parser p = Parser();
+            Expression exp = p.parse(equation);
+            ContextModel cm = ContextModel();
+            result = '${exp.evaluate(EvaluationType.REAL, cm)}';
+          } catch (e) {
+            result = 'Error';
+          }
         }
       } else {
         equation += buttonText;
@@ -61,7 +65,8 @@ class CalculatorAppState extends State<CalculatorApp> {
             alignment: Alignment.bottomRight,
             child: Text(
               result,
-              style: const TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+              style:
+                  const TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
             ),
           ),
           const Spacer(),
@@ -72,48 +77,66 @@ class CalculatorAppState extends State<CalculatorApp> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    AnimatedCalculatorButton(text: '7', onPressed: buttonPressed),
-                    AnimatedCalculatorButton(text: '8', onPressed: buttonPressed),
-                    AnimatedCalculatorButton(text: '9', onPressed: buttonPressed),
-                    AnimatedCalculatorButton(text: '⌫', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(
+                        text: '7', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(
+                        text: '8', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(
+                        text: '9', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(
+                        text: '⌫', onPressed: buttonPressed),
                   ],
                 ),
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    AnimatedCalculatorButton(text: '4', onPressed: buttonPressed),
-                    AnimatedCalculatorButton(text: '5', onPressed: buttonPressed),
-                    AnimatedCalculatorButton(text: '6', onPressed: buttonPressed),
-                    AnimatedCalculatorButton(text: '+', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(
+                        text: '4', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(
+                        text: '5', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(
+                        text: '6', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(
+                        text: '+', onPressed: buttonPressed),
                   ],
                 ),
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    AnimatedCalculatorButton(text: '1', onPressed: buttonPressed),
-                    AnimatedCalculatorButton(text: '2', onPressed: buttonPressed),
-                    AnimatedCalculatorButton(text: '3', onPressed: buttonPressed),
-                    AnimatedCalculatorButton(text: '-', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(
+                        text: '1', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(
+                        text: '2', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(
+                        text: '3', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(
+                        text: '-', onPressed: buttonPressed),
                   ],
                 ),
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    AnimatedCalculatorButton(text: '.', onPressed: buttonPressed),
-                    AnimatedCalculatorButton(text: '0', onPressed: buttonPressed),
-                    AnimatedCalculatorButton(text: 'C', onPressed: buttonPressed),
-                    AnimatedCalculatorButton(text: '*', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(
+                        text: '.', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(
+                        text: '0', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(
+                        text: 'C', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(
+                        text: '*', onPressed: buttonPressed),
                   ],
                 ),
                 const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    AnimatedCalculatorButton(text: '=', onPressed: buttonPressed),
-                    AnimatedCalculatorButton(text: '/', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(
+                        text: '=', onPressed: buttonPressed),
+                    AnimatedCalculatorButton(
+                        text: '/', onPressed: buttonPressed),
                   ],
                 ),
               ],
@@ -137,15 +160,16 @@ class AnimatedCalculatorButton extends StatefulWidget {
   });
 
   @override
-  State<AnimatedCalculatorButton> createState() => _AnimatedCalculatorButtonState();
+  State<AnimatedCalculatorButton> createState() =>
+      _AnimatedCalculatorButtonState();
 }
 
-class _AnimatedCalculatorButtonState extends State<AnimatedCalculatorButton> 
+class _AnimatedCalculatorButtonState extends State<AnimatedCalculatorButton>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
   late Animation<double> _shadowAnimation;
-  
+
   @override
   void initState() {
     super.initState();
