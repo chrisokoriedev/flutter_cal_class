@@ -48,6 +48,7 @@ class CalculatorAppState extends State<CalculatorApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
           'Calculator',
@@ -142,35 +143,22 @@ class CalculatorAppState extends State<CalculatorApp> {
         isButtonPressedFunction();
         buttonPressed(buttonText);
       },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        onEnd: () {
-          setState(() {
-            isButtonPressed = false;
-          });
-        },
+      child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-        width: isButtonPressed ? 78 : 80,
+        width: 70,
         height: 70,
         alignment: Alignment.center,
         decoration: BoxDecoration(
             color: Colors.grey[300],
             borderRadius: BorderRadius.circular(12),
-            boxShadow: isButtonPressed
-                ? []
-                : [
+            boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.shade500,
-                      offset: const Offset(6, 6),
+                      color: Colors.grey.shade300,
+                      offset: const Offset(6, 0),
                       blurRadius: 15,
                       spreadRadius: 1,
                     ),
-                    BoxShadow(
-                      color: Colors.grey.shade500,
-                      offset: const Offset(-6, -6),
-                      blurRadius: 15,
-                      spreadRadius: 1,
-                    ),
+                   
                   ]),
         child: Text(
           buttonText,
